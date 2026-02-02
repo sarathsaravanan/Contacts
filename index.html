@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacts</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Orbitron", system-ui, sans-serif;
+      background: #f6f7fb;
+      margin: 0;
+      padding: 24px;
+      color: #111;
+    }
+
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e6e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    p {
+      margin: 0 0 16px;
+      color: #444;
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eef0f6;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f1f3f9;
+      text-align: left;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: #2b3a8a;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #111;
+      color: #fff;
+      font-family: "Orbitron", sans-serif;
+      letter-spacing: .5px;
+    }
+
+    button:hover {
+      opacity: .92;
+    }
+
+    #result {
+      margin-left: auto;
+      background: #fafbff;
+      border: 1px solid #e6e8f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      min-width: 260px;
+      font-size: 14px;
+    }
+
+    small {
+      display: block;
+      margin-top: 12px;
+      color: #666;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Contacts Database</h1>
+      <p>Select a slot number to view the contact name stored in that slot.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Slot #</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+
+      <div class="actions">
+        <button id="pick">Select a Name</button>
+        <div id="result">No selection yet.</div>
+      </div>
+
+      <small>Slots are numbered 0 through 5.</small>
+    </div>
+  </div>
+
+  <script>
+    const names = ["Arnold","Sly","Dwayne","Vin","JCVD","Steven"];
+    const rows = document.getElementById("rows");
+
+    for (let i = 0; i < names.length; i++) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = "<td><span class='badge'>" + i + "</span></td><td>" + names[i] + "</td>";
+      rows.appendChild(tr);
+    }
+
+    const result = document.getElementById("result");
+
+    document.getElementById("pick").addEventListener("click", function () {
+      let again = true;
+
+      while (again) {
+        let input = prompt("Enter the Slot Number for the name you wish to see (0-5).");
+        if (input === null) return;
+
+        let slot = Number(input.trim());
+        let i = 0;
+        let found = false;
+
+        while (i < names.length) {
+          if (i === slot) {
+            found = true;
+            break;
+          }
+          i++;
+        }
+
+        if (found && Number.isInteger(slot)) {
+          alert("You selected " + names[i] + ".");
+          result.textContent = "You selected " + names[i] + ".";
+          again = confirm("Would you like to search for another name?");
+        } else {
+          alert("That name is not found. Try again.");
+          again = true;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
